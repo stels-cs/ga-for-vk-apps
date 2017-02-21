@@ -3,7 +3,7 @@ import EnvObject from "./EnvObject"
 
 export default class DefaultEnvironmentManager extends EnvironmentManager {
 
-    constructor(counterId, clientId, dataSource = "app") {
+    constructor(counterId, clientId, dataSource = "app", location = null) {
         super(counterId, clientId)
         this._d = {
             v: 1,
@@ -13,7 +13,8 @@ export default class DefaultEnvironmentManager extends EnvironmentManager {
             ua: encodeURIComponent(this.getUserAgent()),
             dr: encodeURIComponent(this.getReferrer())
         }
-        this._d = Object.assign({}, this._d, this._getUtms())
+        this._location = location || window.location
+        this._d = Object.assign({}, this._d, this._getUtms(this._location))
     }
 
     getEnvironment() {
@@ -22,7 +23,7 @@ export default class DefaultEnvironmentManager extends EnvironmentManager {
 
     getPath() {
         try {
-            return window.location.pathname
+            return this._location.pathname
         } catch (e) {
             return "/"
         }
@@ -48,21 +49,23 @@ export default class DefaultEnvironmentManager extends EnvironmentManager {
         }
     }
 
-    _getUtms() {
+    _getUtms(location) {
         let d = {}
-        window.location.search
+        location.search
             .replace("?", "")
             .split("&")
             .forEach( function (i) {
                 if (i.indexOf("hash=") == 0) {
                     let utms = decodeURIComponent( i.replace("hash=", "") )
                         .split("&")
-                        .filter( function (e)  { return e.indexOf("utm_") == 0 } )
-                        .map( function (e) { return e.split("=") } )
-                    utms.forEach( function(tag) {
+                    utms.forEach( function(e) {
+                        let tag = e.split('=') 
                         var name = tag.shift()
                         var value = tag.shift()
                         if (value == undefined) return
+                        if (name.indexOf('amp;') === 0) {
+                            name = name.replace(/amp;/g, '')
+                        }
                         if (name == "utm_source") { d.cs = value }
                         if (name == "utm_campaign") { d.cn = value }
                         if (name == "utm_medium") { d.cm = value }

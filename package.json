@@ -1,6 +1,6 @@
 {
   "name": "ga-for-vk-apps",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Google Analytics for Vk iframe applications",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es6/index.js",
