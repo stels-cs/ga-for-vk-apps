@@ -14,7 +14,14 @@ export default class DefaultEnvironmentManager extends EnvironmentManager {
             dr: encodeURIComponent(this.getReferrer())
         }
         this._location = location || window.location
-        this._d = Object.assign({}, this._d, this._getUtms(this._location))
+        let utms = this._getUtms(this._location)
+        if (utms) {
+            for (let k in utms) {
+                if (utms.hasOwnProperty(k)) {
+                    this._d[k] = utms[k]
+                }
+            }
+        }
     }
 
     getEnvironment() {
@@ -55,22 +62,22 @@ export default class DefaultEnvironmentManager extends EnvironmentManager {
             .replace("?", "")
             .split("&")
             .forEach( function (i) {
-                if (i.indexOf("hash=") == 0) {
+                if (i.indexOf("hash=") === 0) {
                     let utms = decodeURIComponent( i.replace("hash=", "") )
                         .split("&")
                     utms.forEach( function(e) {
                         let tag = e.split('=') 
-                        var name = tag.shift()
-                        var value = tag.shift()
-                        if (value == undefined) return
+                        let name = tag.shift()
+                        let value = tag.shift()
+                        if (value === undefined) return
                         if (name.indexOf('amp;') === 0) {
                             name = name.replace(/amp;/g, '')
                         }
-                        if (name == "utm_source") { d.cs = value }
-                        if (name == "utm_campaign") { d.cn = value }
-                        if (name == "utm_medium") { d.cm = value }
-                        if (name == "utm_term") { d.ck = value }
-                        if (name == "utm_content") { d.cc = value }
+                        if (name === "utm_source") { d.cs = value }
+                        if (name === "utm_campaign") { d.cn = value }
+                        if (name === "utm_medium") { d.cm = value }
+                        if (name === "utm_term") { d.ck = value }
+                        if (name === "utm_content") { d.cc = value }
                     } )
                 }
             })
