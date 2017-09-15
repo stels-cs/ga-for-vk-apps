@@ -1,5 +1,5 @@
 #Google Analytics for Vk iframe applications
-> Бибилиотека для передачи метрики в Google Analytics по Measure protocol
+> Бибилиотека для передачи метрики в Google Analytics по Measure protocol https://developers.google.com/analytics/devguides/collection/protocol/v1/?hl=ru
  
 [![npm version](https://img.shields.io/npm/v/ga-for-vk-apps.svg)](https://www.npmjs.com/package/ga-for-vk-apps) [![npm version](https://img.shields.io/npm/dm/ga-for-vk-apps.svg)](https://www.npmjs.com/package/ga-for-vk-apps)
 
