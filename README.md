@@ -21,7 +21,7 @@ Usage
 ```js
 import {GA} from 'ga-for-vk-apps'
 
-GA.create('UA-67358648-1')
+GA.create('UA-67358648-1') //GA.create('UA-67358648-1', '2050') //pass custom user id
 GA.pageview()
 ```
 
